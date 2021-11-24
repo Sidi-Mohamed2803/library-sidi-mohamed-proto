@@ -36,7 +36,7 @@ public class BookRepositotry {
 				pstmt.setInt(9, book.getSupplier().getId());
 				if(pstmt.executeUpdate()==1)
 				{
-					System.out.println("Le livre "+book.getIsbn()+" "+book.getTitle()+" a �t� ajout� avec succ�s.");
+					System.out.println("Le livre "+book.getIsbn()+" "+book.getTitle()+" a été ajouté avec succès.");
 				}
 			}
 			catch (SQLException e) {
@@ -104,8 +104,23 @@ public class BookRepositotry {
 		
 	}
 	
-	public static void delete(long id)
+	public static void delete(long isbn)
 	{
-		
+		Connection cnx=SConnection.getInstance();
+		try
+		{
+			String request="update book set state=0 where id=?";
+			PreparedStatement pstmt=cnx.prepareStatement(request);
+			pstmt.setLong(1, isbn);
+			int n=pstmt.executeUpdate();
+			if(n==1)
+				System.out.println("Le livre "+isbn+" a été archivé avec succès.");
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			SConnection.close();
+		}
 	}
 }

@@ -8,7 +8,7 @@ import com.library.library_sidi_mohamed.domainManager.BillLineRepository;
 
 import jakarta.ws.rs.Path;
 
-@Path("/billline")
+//@Path("/billline")
 public class BillLineController {
 	
 	public static void add(BillLine line, Bill bill) {

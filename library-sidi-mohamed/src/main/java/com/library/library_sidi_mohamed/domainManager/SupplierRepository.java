@@ -28,13 +28,13 @@ public class SupplierRepository {
 				pstmt.setInt(4, supplier.getPhoneNumb());
 				if(pstmt.executeUpdate()==1)
 				{
-					System.out.println("Le fournisseur "+supplier.getName()+" a �t� ajout� avec succ�s.");
+					System.out.println("Le fournisseur "+supplier.getName()+" a été ajouté avec succès.");
 				}
 			}
 			catch (SQLException e) {
 				if(e.getErrorCode()==1)
 				{
-					System.out.println("Le fournisseur avec identifiant '"+supplier.getId()+"' existe d�ja.");
+					System.out.println("Le fournisseur avec identifiant '"+supplier.getId()+"' existe déjà.");
 				}
 				else e.printStackTrace();
 			}
@@ -94,18 +94,49 @@ public class SupplierRepository {
 		Connection cnx=SConnection.getInstance();
 		try
 		{
-			String request="update supplier set state=0 where id=?";
-			PreparedStatement pstmt=cnx.prepareStatement(request);
+			String delete="delete from supplier where id=?";
+			//String request="update supplier set state=0 where id=?";
+			PreparedStatement pstmt=cnx.prepareStatement(delete);
 			pstmt.setInt(1, id);
 			int n=pstmt.executeUpdate();
 			if(n==1)
-				System.out.println("Le fournisseur "+id+" a �t� archiv� avec succ�s.");
+			{
+				System.out.println("Le fournisseur "+id+" a été supprimé avec succès.");
+				//System.out.println("Le fournisseur "+id+" a été archivé avec succès.");
+			}
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
 		finally {
 			SConnection.close();
+		}
+	}
+	
+	public static void update(Supplier supplier)
+	{
+		if(supplier!=null)
+		{
+			Connection cnx=SConnection.getInstance();
+			try
+			{
+				String request="update supplier set name=?, adress=?, phone_numb=? where id=?";
+				PreparedStatement pstmt=cnx.prepareStatement(request);
+				pstmt.setInt(4, supplier.getId());
+				pstmt.setString(1, supplier.getName());
+				pstmt.setString(2, supplier.getAdress());
+				pstmt.setInt(3, supplier.getPhoneNumb());
+				if(pstmt.executeUpdate()==1)
+				{
+					System.out.println("Le fournisseur "+supplier.getName()+" a été modifié avec succès.");
+				}
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+			finally {
+				SConnection.close();
+			}
 		}
 	}
 }

@@ -19,7 +19,7 @@ public class Client implements Comparable<Client>{
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.dateOfBirth = dateOfBirth;
-		this.age=Period.between(LocalDate.now(), dateOfBirth).getYears();
+		this.age=Period.between(dateOfBirth, LocalDate.now()).getYears();
 	}
 
 	public String getFirstName() {
